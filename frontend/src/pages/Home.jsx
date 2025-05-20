@@ -26,18 +26,18 @@ const Home = () => {
             <h2 className="text-lg font-semibold">{product.name}</h2>
             <p className="text-gray-600 mb-2">${product.price}</p>
             <button
-  onClick={() => addToCart(product)}
-  className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700 mr-2"
-  disabled={isInCart(product._id)}
->
-  {isInCart(product._id) ? 'In Cart' : 'Add to Cart'}
-</button>
+                onClick={() => addToCart(product)}
+                className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700 mr-2"
+                disabled={isInCart(product._id)}
+                >
+                {isInCart(product._id) ? 'In Cart' : 'Add to Cart'}
+            </button>
 
-    <Link to={`/product/${product._id}`}>
-    <button className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">
-        View
-    </button>
-    </Link>
+            <Link to={`/product/${product._id}`}>
+                <button className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">
+                    View
+                </button>
+            </Link>
           </div>
         ))}
       </div>

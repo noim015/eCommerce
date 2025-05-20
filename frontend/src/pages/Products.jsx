@@ -40,7 +40,9 @@ const Products = () => {
               >
                 Add to Cart
               </button>
+              
             )}
+            
           </div>
         ))}
       </div>
