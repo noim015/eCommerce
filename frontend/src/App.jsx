@@ -9,6 +9,8 @@ import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import RegisterForm from './pages/RegisterForm';
 import LoginForm from './pages/LoginForm';
+import UserDashboard from './pages/UserDashboard';
+import ProtectedRoute from './components/ProtectedRoute';
 
 const App = () => {
   return (
@@ -22,6 +24,15 @@ const App = () => {
             <Route path="/product/:id" element={<ProductDetails />} />
             <Route path="/register" element={<RegisterForm/>} />
             <Route path="/login" element={<LoginForm/>} />
+            
+            <Route
+                path="/dashboard"
+                element={
+                  <ProtectedRoute>
+                    <UserDashboard />
+                  </ProtectedRoute>
+                }
+              />
             <Route path="/cart" element={<Cart />} />
             <Route path="/checkout" element={<Checkout />} />
           </Routes>
