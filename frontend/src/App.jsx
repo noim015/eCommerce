@@ -11,6 +11,7 @@ import RegisterForm from './pages/RegisterForm';
 import LoginForm from './pages/LoginForm';
 import UserDashboard from './pages/UserDashboard';
 import ProtectedRoute from './components/ProtectedRoute';
+import OrderDetails from './pages/OrderDetails';
 
 const App = () => {
   return (
@@ -33,6 +34,11 @@ const App = () => {
                   </ProtectedRoute>
                 }
               />
+              <Route path="/order/:id" element={
+                <ProtectedRoute>
+                  <OrderDetails/>
+                </ProtectedRoute>
+            } />
             <Route path="/cart" element={<Cart />} />
             <Route path="/checkout" element={<Checkout />} />
           </Routes>

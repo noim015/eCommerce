@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import API from '../utils/axios'; // ✅ use your axios instance
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -8,14 +9,16 @@ const ProductDetails = () => {
   const { addToCart, cartItems } = useCart();
 
   useEffect(() => {
-    // Dummy product fetch (replace with real API)
-    const products = [
-      { _id: '1', name: 'Bluetooth Speaker', price: 59, description: 'High quality sound', image: 'https://via.placeholder.com/300x200' },
-      { _id: '2', name: 'Smart Watch', price: 129, description: 'Track your steps', image: 'https://via.placeholder.com/300x200' },
-      { _id: '3', name: 'Wireless Mouse', price: 39, description: 'Ergonomic design', image: 'https://via.placeholder.com/300x200' }
-    ];
-    const found = products.find((p) => p._id === id);
-    setProduct(found);
+    const fetchProduct = async () => {
+      try {
+        const { data } = await API.get(`/products/${id}`);
+        setProduct(data);
+      } catch (err) {
+        console.error('Failed to fetch product:', err);
+      }
+    };
+
+    fetchProduct();
   }, [id]);
 
   const isInCart = cartItems.some((item) => item._id === id);

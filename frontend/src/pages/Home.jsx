@@ -1,20 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
-
+import API from '../utils/axios'; // Import your axios instance
 const Home = () => {
   const [products, setProducts] = useState([]);
   const { addToCart, cartItems } = useCart();
   const isInCart = (id) => cartItems.some((item) => item._id === id);
 
-  useEffect(() => {
-    // Replace with real API later
-    setProducts([
-      { _id: '1', name: 'Bluetooth Speaker', price: 59, image: 'https://via.placeholder.com/300x200' },
-      { _id: '2', name: 'Smart Watch', price: 129, image: 'https://via.placeholder.com/300x200' },
-      { _id: '3', name: 'Wireless Mouse', price: 39, image: 'https://via.placeholder.com/300x200' }
-    ]);
-  }, []);
+
+useEffect(() => {
+  const fetchProducts = async () => {
+    try {
+      const { data } = await API.get('/products');
+      setProducts(data);
+    } catch (err) {
+      console.error('Failed to fetch products:', err);
+    }
+  };
+
+  fetchProducts();
+}, []);
+
 
   return (
     <div className="mt-20 px-6">

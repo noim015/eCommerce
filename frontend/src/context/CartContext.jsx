@@ -1,11 +1,18 @@
-import { createContext, useState, useContext } from 'react';
+import { createContext, useState, useContext, useEffect } from 'react';
 
 const CartContext = createContext();
-
 export const useCart = () => useContext(CartContext);
 
 export const CartProvider = ({ children }) => {
-  const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useState(() => {
+    const stored = localStorage.getItem('cart');
+    return stored ? JSON.parse(stored) : [];
+  });
+
+  // 🔄 Sync with localStorage on any update
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cartItems));
+  }, [cartItems]);
 
   const addToCart = (product) => {
     setCartItems((prev) => {
@@ -20,26 +27,27 @@ export const CartProvider = ({ children }) => {
   };
 
   const increaseQty = (productId) => {
-  setCartItems((prev) =>
-    prev.map((item) =>
-      item._id === productId ? { ...item, quantity: item.quantity + 1 } : item
-    )
-  );
-};
-
-const decreaseQty = (productId) => {
-  setCartItems((prev) =>
-    prev
-      .map((item) =>
-        item._id === productId ? { ...item, quantity: item.quantity - 1 } : item
+    setCartItems((prev) =>
+      prev.map((item) =>
+        item._id === productId ? { ...item, quantity: item.quantity + 1 } : item
       )
-      .filter((item) => item.quantity > 0) // Remove if qty is 0
-  );
-};
+    );
+  };
 
+  const decreaseQty = (productId) => {
+    setCartItems((prev) =>
+      prev
+        .map((item) =>
+          item._id === productId ? { ...item, quantity: item.quantity - 1 } : item
+        )
+        .filter((item) => item.quantity > 0)
+    );
+  };
 
   return (
-    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, increaseQty,decreaseQty  }}>
+    <CartContext.Provider
+      value={{ cartItems, addToCart, removeFromCart, increaseQty, decreaseQty }}
+    >
       {children}
     </CartContext.Provider>
   );

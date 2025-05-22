@@ -12,7 +12,7 @@ const addOrderItems = async (req, res) => {
     shippingPrice,
     totalPrice,
   } = req.body;
-
+  console.log('Order Items Received:', req.body.orderItems);
   if (!orderItems || orderItems.length === 0) {
     res.status(400);
     throw new Error('No order items');
