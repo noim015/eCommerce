@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { registerUser } from '../api/userApi';
-
+import { useNavigate } from 'react-router-dom';
 const RegisterForm = () => {
   const [formData, setFormData] = useState({ name: '', email: '', password: '' });
   const [message, setMessage] = useState('');
+  const navigate = useNavigate();
 
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -13,6 +14,7 @@ const RegisterForm = () => {
     try {
       await registerUser(formData.name, formData.email, formData.password);
       setMessage('🎉 Registration successful!');
+      navigate('/dashboard');
     } catch (error) {
       setMessage(error.response?.data?.message || 'Registration failed');
     }
